@@ -1,93 +1,71 @@
-import { Box, Button, TextField, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    minHeight: '100vh',
-  },
-
-  leftContainer: {
-    flexBasis: '60%',
-    background: "url('images/login-image.jpg')",
-    backgroundSize: 'cover',
-    flexShrink: 0,
-  },
-
-  rightContainer: {
-    textAlign: 'center',
-    flexGrow: '1',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '100px 80px',
-  },
-
-  logo: {
-    maxWidth: 250,
-  },
-  title: {
-    marginTop: 80,
-    marginBottom: 40,
-    fontWeight: 500,
-  },
-
-  fontSize30: {
-    fontSize: 30,
-  },
-
-  marginBottom20: {
-    marginBottom: 20,
-  },
-});
-
+import { Box, Button, TextField } from '@mui/material';
+import { useState } from 'react';
+import './styles/Login.css';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import auth from './firebase/initialiseApp';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
-  const classes = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed IN
+
+        //Navigate to Dashboard once the login is successful
+        navigate('/dashboard/home');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
   return (
-    <Box className={classes.root} component="div">
-      {/* Left Container */}
-      <div className={classes.leftContainer}></div>
+    <Box className="login">
+      {/* Left Image  */}
+      <Box className="left-container"></Box>
 
-      {/* Right Container */}
-      <div className={classes.rightContainer}>
-        <div className={classes.logoContainer}>
-          <img
-            className={classes.logo}
-            src="images/logo.png"
-            alt="company logo"
-          />
-        </div>
-        <Typography variant="h4" className={classes.title}>
-          Resolute AI Ticketing System
-        </Typography>
+      {/* Right Container: LOGIN FORM */}
+      <Box className="right-container">
+        <Box className="logo-container">
+          <img className="logo" src="images/logo.png" alt="company logo" />
+        </Box>
+        <h1 className="page-title">Resolute AI Ticketing System</h1>
+        <h2 className="form-heading">Enter your details to login</h2>
 
-        <form noValidate>
-          <Typography
-            className={`${classes.fontSize30} ${classes.marginBottom20}`}
-          >
-            Enter your details to login
-          </Typography>
+        {/* FORM */}
+        <form className="login-form" onSubmit={handleLogin}>
           <TextField
+            sx={{ width: '400px' }}
             id="outlined-basic"
             label="Email Address"
             variant="outlined"
-            fullWidth
-            className={classes.marginBottom20}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
+            sx={{ width: '400px' }}
             id="outlined-basic"
             label="Password"
             type="password"
-            fullWidth
             variant="outlined"
-            className={classes.marginBottom20}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary">
+          <Button
+            color="primary"
+            sx={{
+              height: '40px',
+            }}
+            variant="contained"
+            onClick={handleLogin}
+          >
             Login
           </Button>
         </form>
-      </div>
+      </Box>
     </Box>
   );
 };

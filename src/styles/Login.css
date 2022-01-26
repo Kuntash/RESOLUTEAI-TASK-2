@@ -1,0 +1,44 @@
+.login {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Left Container Styles */
+
+.left-container {
+  flex-basis: 60%;
+  background: url('../../public/images/login-image.jpg');
+  background-size: cover;
+}
+
+/* Right Container: LOGIN FORM Styles */
+.right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 100px 0;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.logo-container {
+  margin-bottom: 80px;
+}
+.logo {
+  max-width: 250px;
+}
+
+.page-title {
+  margin-bottom: 40px;
+}
+.form-heading {
+  color: var(--black);
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}

@@ -1,13 +1,22 @@
-import { createTheme, ThemeProvider } from "@material-ui/core";
-import { Route, Routes } from "react-router-dom";
-import Login from "./Login";
-import System from "./System";
-import "./styles/App.css";
+import { createTheme } from '@mui/material/styles';
+import { Route, Routes } from 'react-router-dom';
+import Login from './Login';
+import System from './System';
+import './styles/App.css';
+import { ThemeProvider } from '@mui/system';
+
 const theme = createTheme({
-  color: {
-    primary: "#fa2611",
+  palette: {
+    primary: {
+      main: '#f62405',
+    },
+    secondary: {
+      main: '#1dd67d',
+    },
+    tertiary: {
+      main: '#fb9905',
+    },
   },
-  
 });
 function App() {
   return (
