@@ -1,9 +1,11 @@
 import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/system';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import System from './System';
+import Home from './components/Home/Home';
+import CreateTicket from './components/CreateTicket/CreateTicket';
 import './styles/App.css';
-import { ThemeProvider } from '@mui/system';
 
 const theme = createTheme({
   palette: {
@@ -16,6 +18,13 @@ const theme = createTheme({
     tertiary: {
       main: '#fb9905',
     },
+    status: {
+      main: '#fff',
+    },
+    // Shadow
+    grey: {
+      main: '#777777',
+    },
   },
 });
 function App() {
@@ -26,7 +35,10 @@ function App() {
           {/* Login Form Component  */}
           <Route path="/" element={<Login />} />
           {/* System Component */}
-          <Route path="/dashboard/home" element={<System />} />
+          <Route path="/dashboard" element={<System />}>
+            <Route path="home" element={<Home />} />
+            <Route path="createTicket" element={<CreateTicket />} />
+          </Route>
         </Routes>
       </div>
     </ThemeProvider>
