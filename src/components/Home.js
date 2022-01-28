@@ -77,7 +77,7 @@ const Home = () => {
       <CustomBoxContainer>
         {/* Ticket Info Cards */}
         {ticketInfoList.map((data, index) => (
-          <TicketInfoCard info={data} />
+          <TicketInfoCard key={index} info={data} />
         ))}
       </CustomBoxContainer>
 

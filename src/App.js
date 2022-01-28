@@ -9,6 +9,7 @@ import './styles/App.css';
 import Settings from './components/Settings';
 import History from './components/History';
 import Analytics from './components/Analytics';
+import { AuthProvider } from './Contexts/authContext';
 
 const theme = createTheme({
   palette: {
@@ -37,22 +38,27 @@ const theme = createTheme({
 });
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <Routes>
-          {/* Login Form Component  */}
-          <Route path="/" element={<Login />} />
-          {/* System Component */}
-          <Route path="/dashboard" element={<System />}>
-            <Route path="home" element={<Home />} />
-            <Route path="createTicket" element={<CreateTicket />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="history" element={<History />} />
-            <Route path="analytics" element={<Analytics />} />
-          </Route>
-        </Routes>
-      </div>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Routes>
+            {/* Login Form Component  */}
+            <Route path="/" element={<Login />} />
+            {/* System Component */}
+            <Route element={<System />}>
+              <Route path="/dashboard/home" element={<Home />} />
+              <Route
+                path="/dashboard/createTicket"
+                element={<CreateTicket />}
+              />
+              <Route path="/dashboard/history" element={<History />} />
+              <Route path="/dashboard/analytics" element={<Analytics />} />
+              <Route path="/dashboard/settings" element={<Settings />} />
+            </Route>
+          </Routes>
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

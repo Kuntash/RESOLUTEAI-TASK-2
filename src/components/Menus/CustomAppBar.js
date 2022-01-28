@@ -1,16 +1,28 @@
-import { ExpandMoreRounded, Notifications } from '@mui/icons-material';
 import {
+  ExpandMoreRounded,
+  Notifications,
+  PermIdentity,
+  Settings,
+} from '@mui/icons-material';
+import {
+  Divider,
   IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Popover,
   styled,
   Toolbar,
-  Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import { DrawerOpen } from '../../System';
 import { drawerWidth } from './Menu';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/initialiseApp';
+import { useNavigate } from 'react-router-dom';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -30,11 +42,23 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+const CustomListItemText = styled(ListItemText)(() => ({
+  fontSize: '20px',
+  color: 'black.main',
+}));
+
 const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const [open, dispatch] = useContext(DrawerOpen);
   const popOverOpen = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  //SignOut when the logout button is pressed
+  const handleLogOut = () => {
+    signOut(auth);
+    navigate('/');
+  };
   // For PopOver
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +68,6 @@ const CustomAppBar = () => {
   };
   return (
     <AppBar color="status" position="fixed" open={open}>
-      {/* Left HamBurger Menu */}
       <Toolbar
         sx={{
           display: 'flex',
@@ -52,6 +75,7 @@ const CustomAppBar = () => {
           alignItems: 'center',
         }}
       >
+        {/* Left HamBurger Menu */}
         <IconButton
           color="primary"
           aria-label="open drawer"
@@ -79,7 +103,7 @@ const CustomAppBar = () => {
             <ExpandMoreRounded sx={{ fontSize: '30px' }} />
           </IconButton>
 
-          {/* PopOver containng: logout, settings and profile  */}
+          {/* PopOver containng: Profile, settings & privacy, Logout */}
           <Popover
             id={id}
             open={popOverOpen}
@@ -90,9 +114,34 @@ const CustomAppBar = () => {
               horizontal: 'left',
             }}
           >
-            <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+            <List>
+              <ListItemButton>
+                <ListItemIcon>
+                  <PermIdentity />
+                </ListItemIcon>
+                <CustomListItemText disableTypography primary="Profile" />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Settings />
+                </ListItemIcon>
+                <CustomListItemText
+                  disableTypography
+                  primary="Settings & Privacy"
+                />
+              </ListItemButton>
+              <Divider />
+              <ListItemButton
+                onClick={handleLogOut}
+                sx={{ textAlign: 'center' }}
+              >
+                <CustomListItemText disableTypography primary="Logout" />
+              </ListItemButton>
+            </List>
           </Popover>
+          {/* Popover ends */}
         </Toolbar>
+        {/* Right Group of Icons ends here */}
       </Toolbar>
     </AppBar>
   );

@@ -1,26 +1,28 @@
 import { Box, CssBaseline } from '@mui/material';
 import { DrawerHeader } from './components/Menus/Menu';
-
-import { onAuthStateChanged } from 'firebase/auth';
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import auth from './firebase/initialiseApp';
 import { initialState, drawerOpenReducer } from './Contexts/drawerOpenReducer';
 import CustomAppBar from './components/Menus/CustomAppBar';
 import CustomDrawer from './components/Menus/CustomDrawer';
-
+import { useAuth } from './Contexts/authContext';
 export const DrawerOpen = createContext({
   open: initialState,
   dispatch: () => null,
 });
 
 const System = () => {
-  const [open, dispatch] = useReducer(drawerOpenReducer, initialState);
+  const { isAuthenticated, currentUser } = useAuth();
   const navigate = useNavigate();
-  onAuthStateChanged(auth, (user) => {
-    //If not logged in then, redirect to the login page.
-    if (!user) navigate('/');
-  });
+  const [open, dispatch] = useReducer(drawerOpenReducer, initialState);
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (!isAuthenticated) navigate('/');
+  }, []);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

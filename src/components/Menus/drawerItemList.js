@@ -14,26 +14,26 @@ export const drawerItemList = [
     text: 'Dashboard',
 
     icon: <Dashboard sx={listItemSize} />,
-    link: 'home',
+    link: '/dashboard/home',
   },
   {
     text: 'Raise a Ticket',
     icon: <AddCircle sx={listItemSize} />,
-    link: 'createTicket',
+    link: '/dashboard/createTicket',
   },
   {
     text: 'History / Logs',
     icon: <Book sx={listItemSize} />,
-    link: 'history',
+    link: '/dashboard/history',
   },
   {
     text: 'Analytics',
     icon: <Assessment sx={listItemSize} />,
-    link: 'analytics',
+    link: '/dashboard/analytics',
   },
   {
     text: 'Settings',
     icon: <Settings sx={listItemSize} />,
-    link: 'settings',
+    link: '/dashboard/settings',
   },
 ];

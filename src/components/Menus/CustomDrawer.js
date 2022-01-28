@@ -57,7 +57,7 @@ const CustomDrawer = () => {
       <Divider />
       <List>
         {drawerItemList.map((data, index) => (
-          <Link style={{ textDecoration: 'none' }} to={data.link}>
+          <Link key={index} style={{ textDecoration: 'none' }} to={data.link}>
             <ListItemButton
               sx={{
                 '&.Mui-selected': {

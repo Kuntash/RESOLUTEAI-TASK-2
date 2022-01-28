@@ -28,8 +28,9 @@ const TicketInfoCard = ({ info }) => {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    '& h3:first-child': {
-      fontWeight: 400,
+
+    '& p': {
+      fontSize: '1.17em',
     },
   }));
   return (
@@ -47,7 +48,7 @@ const TicketInfoCard = ({ info }) => {
         />
       </LeftBox>
       <RightBox>
-        <h3>{title}</h3>
+        <p>{title}</p>
         <h3>{count}</h3>
       </RightBox>
     </CustomPaper>
