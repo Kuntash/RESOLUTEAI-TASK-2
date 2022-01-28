@@ -24,6 +24,8 @@ const System = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
+
+      {/* Passing Global Drawer Open State to CustomAppBar and Side Drawer */}
       <DrawerOpen.Provider value={[open, dispatch]}>
         {/* Top App Bar */}
         <CustomAppBar />

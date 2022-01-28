@@ -3,9 +3,12 @@ import { ThemeProvider } from '@mui/system';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import System from './System';
-import Home from './components/Home/Home';
-import CreateTicket from './components/CreateTicket/CreateTicket';
+import Home from './components/Home';
+import CreateTicket from './components/CreateTicket';
 import './styles/App.css';
+import Settings from './components/Settings';
+import History from './components/History';
+import Analytics from './components/Analytics';
 
 const theme = createTheme({
   palette: {
@@ -24,6 +27,11 @@ const theme = createTheme({
     // Shadow
     grey: {
       main: '#777777',
+      light: '#efefef',
+    },
+
+    black: {
+      main: '#3a3a3a',
     },
   },
 });
@@ -38,6 +46,9 @@ function App() {
           <Route path="/dashboard" element={<System />}>
             <Route path="home" element={<Home />} />
             <Route path="createTicket" element={<CreateTicket />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="history" element={<History />} />
+            <Route path="analytics" element={<Analytics />} />
           </Route>
         </Routes>
       </div>

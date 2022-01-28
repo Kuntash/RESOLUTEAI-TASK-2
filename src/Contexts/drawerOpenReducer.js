@@ -9,4 +9,4 @@ export const drawerOpenReducer = (_, action) => {
   }
 };
 
-export const initialState = false;
+export const initialState = true;

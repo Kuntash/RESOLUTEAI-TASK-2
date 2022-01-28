@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import React from 'react';
 
-const Home = () => {
+const History = () => {
   return (
     <Box>
-      <h1>Homee</h1>
+      <h1>History</h1>
     </Box>
   );
 };
 
-export default Home;
+export default History;

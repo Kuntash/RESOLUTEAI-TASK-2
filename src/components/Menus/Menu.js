@@ -1,8 +1,8 @@
 import { styled } from '@mui/material';
-import React from 'react';
 
 export const drawerWidth = 300;
 
+// Drawer Opening Animation
 export const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -12,6 +12,7 @@ export const openedMixin = (theme) => ({
   overflowX: 'hidden',
 });
 
+// Drawer Closing Animation
 export const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -24,6 +25,7 @@ export const closedMixin = (theme) => ({
   },
 });
 
+// Drawer Header
 export const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
