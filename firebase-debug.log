@@ -1,24 +1,17 @@
-[debug] [2022-01-30T13:50:23.875Z] ----------------------------------------------------------------------
-[debug] [2022-01-30T13:50:23.877Z] Command:       C:\Users\KUNGA TASHI\.nvm\versions\node\v16.13.0\bin\node.exe C:\Users\KUNGA TASHI\.nvm\versions\node\v16.13.0\bin\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2022-01-30T13:50:23.877Z] CLI Version:   10.1.2
-[debug] [2022-01-30T13:50:23.877Z] Platform:      win32
-[debug] [2022-01-30T13:50:23.877Z] Node Version:  v16.13.0
-[debug] [2022-01-30T13:50:23.878Z] Time:          Sun Jan 30 2022 19:20:23 GMT+0530 (India Standard Time)
-[debug] [2022-01-30T13:50:23.879Z] ----------------------------------------------------------------------
+[debug] [2022-01-30T13:55:40.655Z] ----------------------------------------------------------------------
+[debug] [2022-01-30T13:55:40.657Z] Command:       C:\Users\KUNGA TASHI\.nvm\versions\node\v16.13.0\bin\node.exe C:\Users\KUNGA TASHI\.nvm\versions\node\v16.13.0\bin\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-01-30T13:55:40.657Z] CLI Version:   10.1.2
+[debug] [2022-01-30T13:55:40.657Z] Platform:      win32
+[debug] [2022-01-30T13:55:40.657Z] Node Version:  v16.13.0
+[debug] [2022-01-30T13:55:40.665Z] Time:          Sun Jan 30 2022 19:25:40 GMT+0530 (India Standard Time)
+[debug] [2022-01-30T13:55:40.665Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-01-30T13:50:23.881Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2022-01-30T13:50:23.900Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-01-30T13:50:23.900Z] > authorizing via signed-in user (kuntashtashi11@gmail.com)
-[info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\KUNGA TASHI\Desktop\ResoluteAI\Task2\ticketing-system
-
-[debug] [2022-01-30T13:50:24.902Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2022-01-30T13:50:24.902Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2022-01-30T13:55:40.739Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-01-30T13:55:40.739Z] > authorizing via signed-in user (kuntashtashi11@gmail.com)
+[debug] [2022-01-30T13:55:40.739Z] [iam] checking project resoluteai-ticketing-system for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-01-30T13:55:40.742Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2022-01-30T13:55:40.742Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2022-01-30T13:55:41.052Z] <<< HTTP RESPONSE 200 {"date":"Sun, 30 Jan 2022 13:55:40 GMT","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2022-01-30T13:55:41.068Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/resoluteai-ticketing-system:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
