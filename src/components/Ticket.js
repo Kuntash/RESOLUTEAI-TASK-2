@@ -132,11 +132,11 @@ const Ticket = (props) => {
           <Box>
             <TextContainerBox>
               <h3>Issue Title: </h3>
-              <p>{!loading ? ticketDetails?.issue.issueTitle : null}</p>
+              <p>{!loading ? ticketDetails?.issue?.issueTitle : null}</p>
             </TextContainerBox>
             <TextContainerBox>
               <h3>Issue Description:</h3>
-              <p>{!loading ? ticketDetails?.issue.issueDescription : null}</p>
+              <p>{!loading ? ticketDetails?.issue?.issueDescription : null}</p>
             </TextContainerBox>
           </Box>
         </BottomBox>
