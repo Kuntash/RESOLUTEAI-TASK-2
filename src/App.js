@@ -10,6 +10,7 @@ import Settings from './components/Settings';
 import History from './components/History';
 import Analytics from './components/Analytics';
 import { AuthProvider } from './Contexts/authContext';
+import Ticket from './components/Ticket';
 
 const theme = createTheme({
   palette: {
@@ -54,6 +55,7 @@ function App() {
               <Route path="/dashboard/history" element={<History />} />
               <Route path="/dashboard/analytics" element={<Analytics />} />
               <Route path="/dashboard/settings" element={<Settings />} />
+              <Route path="/dashboard/ticket/:id" element={<Ticket />} />
             </Route>
           </Routes>
         </div>

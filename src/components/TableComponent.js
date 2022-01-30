@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {
   IconButton,
@@ -19,7 +19,9 @@ import {
   OpenInNew,
 } from '@mui/icons-material';
 import { Box } from '@mui/system';
+import { Link } from 'react-router-dom';
 
+//Enables pagination functionalities in MUI's Table Component
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -59,58 +61,26 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-const createRow = (
-  ticketNumber,
-  responsibleTeam,
-  createdOn,
-  closingDate,
-  status
-) => {
-  return {
-    ticketNumber,
-    responsibleTeam,
-    createdOn,
-    closingDate,
-    status,
-  };
-};
 
+//Table Headings
 const headings = [
   'Ticket Number',
-  'Responsible Team',
+  'Created By',
   'Created On',
   'Closing Date',
   'Status',
   'View Tickets',
 ];
-const rows = [
-  createRow('RAIJSJAN2201', 'Team A', '04-01-2022', '20-01-2022', 'open'),
-  createRow('RAIJSJAN2202', 'Team B', '05-01-2022', '04-01-2022', 'closed'),
-  createRow('RAIJSJAN2203', 'Team C', '06-01-2022', '10-01-2022', 'overdue'),
-  createRow('RAIJSJAN2204', 'Team A', '07-01-2022', '20-01-2022', 'open'),
-  createRow('RAIJSJAN2205', 'Team B', '08-01-2022', '10-01-2022', 'closed'),
-  createRow('RAIJSJAN2206', 'Team C', '09-01-2022', '12-01-2022', 'overdue'),
-  createRow('RAIJSJAN2207', 'Team A', '10-01-2022', '11-01-2022', 'closed'),
-  createRow('RAIJSJAN2208', 'Team B', '11-01-2022', '20-01-2022', 'open'),
-  createRow('RAIJSJAN2209', 'Team C', '12-01-2022', '15-01-2022', 'overdue'),
-  createRow('RAIJSJAN2210', 'Team A', '13-01-2022', '20-01-2022', 'open'),
-  createRow('RAIJSJAN2211', 'Team B', '14-01-2022', '15-01-2022', 'closed'),
-  createRow('RAIJSJAN2212', 'Team C', '15-01-2022', '16-01-2022', 'overdue'),
-  createRow('RAIJSJAN2213', 'Team A', '16-01-2022', '19-01-2022', 'closed'),
-  createRow('RAIJSJAN2214', 'Team B', '17-01-2022', '19-01-2022', 'closed'),
-  createRow('RAIJSJAN2215', 'Team C', '18-01-2022', '19-01-2022', 'closed'),
-  createRow('RAIJSJAN2216', 'Team A', '19-01-2022', '22-01-2022', 'open'),
-  createRow('RAIJSJAN2217', 'Team B', '20-01-2022', '23-01-2022', 'open'),
-  createRow('RAIJSJAN2218', 'Team C', '21-01-2022', '24-01-2022', 'open'),
-  createRow('RAIJSJAN2219', 'Team A', '22-01-2022', '25-01-2022', 'open'),
-];
-const TableComponent = () => {
+const TableComponent = ({ ticketList, loading }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [emptyRows, setEmptyRows] = useState(0);
   //Avoid a layout jump when reaching the last page with empty rows
-  const emptyRows =
-    page > 0 ? Math.max(0, 1 + page * rowsPerPage - rows.length) : 0;
+  useEffect(() => {
+    setEmptyRows(
+      page > 0 ? Math.max(0, 1 + page * rowsPerPage - ticketList.length) : 0
+    );
+  }, [loading, page, rowsPerPage, ticketList]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -128,7 +98,7 @@ const TableComponent = () => {
           <TableHead sx={{ backgroundColor: '#efefef' }}>
             <TableRow>
               <TableCell align="center" colSpan={6}>
-                <b>LATEST ACTIVITY</b>
+                <b>Overview</b>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -139,69 +109,82 @@ const TableComponent = () => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row, i) => (
-              <TableRow key={i}>
-                <TableCell align="center">{row.ticketNumber}</TableCell>
-                <TableCell align="center">{row.responsibleTeam}</TableCell>
-                <TableCell align="center">{row.createdOn}</TableCell>
-                <TableCell align="center">{row.closingDate}</TableCell>
-                <TableCell
-                  align="center"
-                  sx={
-                    row.status === 'overdue'
-                      ? {
-                          backgroundColor: '#F62405',
-                          color: '#fff',
-                        }
-                      : null
-                  }
-                >
-                  {row.status}
-                </TableCell>
-                <TableCell align="center">
-                  <OpenInNew
-                    sx={{
-                      cursor: 'pointer',
-                      color: '#F62405',
-                      fontSize: '25px',
-                    }}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
+          {!loading ? (
+            <TableBody>
+              {(rowsPerPage > 0
+                ? ticketList.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : ticketList
+              ).map((ticket, i) => (
+                <TableRow key={i}>
+                  <TableCell align="center">{ticket.ticketNumber}</TableCell>
+                  <TableCell align="center">{ticket.creatorEmail}</TableCell>
+                  <TableCell align="center">{ticket.createdDate}</TableCell>
+                  <TableCell align="center">{ticket?.closingDate}</TableCell>
+                  <TableCell
+                    align="center"
+                    sx={
+                      ticket.status === 'overdue'
+                        ? {
+                            backgroundColor: '#F62405',
+                            color: '#fff',
+                          }
+                        : null
+                    }
+                  >
+                    {ticket.status}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Link
+                      to={`/dashboard/ticket/${ticket.id}`}
+                      
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <OpenInNew
+                        sx={{
+                          cursor: 'pointer',
+                          color: '#F62405',
+                          fontSize: '25px',
+                        }}
+                      />
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
 
-            {/* Blank Cells when available row is less than rowsPerPage*/}
+              {/* Blank Cells when available row is less than rowsPerPage*/}
 
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          ) : null}
+          {!loading ? (
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  colSpan={6}
+                  count={ticketList.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      'aria-label': 'rows per page',
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
               </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                colSpan={6}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
+            </TableFooter>
+          ) : null}
         </Table>
       </TableContainer>
     </div>

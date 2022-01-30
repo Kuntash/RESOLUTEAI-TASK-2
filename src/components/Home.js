@@ -1,6 +1,14 @@
 import { styled, useTheme } from '@mui/material';
 import { Box, Grid } from '@mui/material';
-import React from 'react';
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { db } from '../firebase/initialiseApp';
 import TableComponent from './TableComponent';
 import TicketInfoCard from './TicketInfoCard';
 
@@ -36,24 +44,47 @@ const CustomBoxContainer = styled(Box)(() => ({
 }));
 
 const Home = () => {
+  //Get all the data from the Tickets Collection
+  const [ticketList, setTicketList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalTickets, setTotalTickets] = useState(0);
+  const [openTickets, setOpenTickets] = useState(0);
+
+  //Realtime updates for all tickets using onSnapshot inside a useEffect
+  //listener to get all the tickets whenever tickets collection updates
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'Tickets'), (ticketSnapshot) => {
+        setLoading(true);
+        const tickets = [];
+        ticketSnapshot.forEach((doc) => {
+          const data = doc.data();
+          const id = doc.id;
+
+          tickets.push({ ...data, id });
+        });
+        setTicketList(tickets);
+        setTotalTickets(tickets.length);
+        setLoading(false);
+      }),
+    []
+  );
+
+  //Listener to get all the open tickets whenever tickets collection updates
+  useEffect(() => {
+    const openTicketRef = query(
+      collection(db, 'Tickets'),
+      where('status', '==', 'open')
+    );
+    const unsub = onSnapshot(openTicketRef, (openTicketSnapshot) => {
+      setLoading(true);
+      setOpenTickets(openTicketSnapshot.size);
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
+
   const theme = useTheme();
-  const ticketInfoList = [
-    {
-      backgroundColor: theme.palette.primary.main,
-      title: 'Total Tickets',
-      count: 6,
-    },
-    {
-      backgroundColor: theme.palette.secondary.main,
-      title: 'Open Tickets',
-      count: 6,
-    },
-    {
-      backgroundColor: theme.palette.tertiary.main,
-      title: 'Closed Tickets',
-      count: 6,
-    },
-  ];
 
   const date = new Date();
   const options = {
@@ -75,13 +106,27 @@ const Home = () => {
         </CustomBoxRight>
       </CustomGridContainer>
       <CustomBoxContainer>
-        {/* Ticket Info Cards */}
-        {ticketInfoList.map((data, index) => (
-          <TicketInfoCard key={index} info={data} />
-        ))}
+        <TicketInfoCard
+          key={0}
+          title="Total Tickets"
+          backgroundColor={theme.palette.primary.main}
+          count={!loading ? totalTickets : null}
+        />
+        <TicketInfoCard
+          title="Open Tickets"
+          key={1}
+          count={!loading ? openTickets : null}
+          backgroundColor={theme.palette.secondary.main}
+        />
+        <TicketInfoCard
+          key={2}
+          count={!loading ? totalTickets - openTickets : null}
+          title="Closed Tickets"
+          backgroundColor={theme.palette.tertiary.main}
+        />
       </CustomBoxContainer>
 
-      <TableComponent />
+      <TableComponent ticketList={ticketList} loading={loading} />
     </Box>
   );
 };

@@ -12,13 +12,9 @@ export const DrawerOpen = createContext({
 });
 
 const System = () => {
-  const { isAuthenticated, currentUser } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [open, dispatch] = useReducer(drawerOpenReducer, initialState);
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
-
   useEffect(() => {
     if (!isAuthenticated) navigate('/');
   }, []);

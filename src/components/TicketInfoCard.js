@@ -9,8 +9,7 @@ const CustomPaper = styled(Paper)(() => ({
   overflow: 'hidden',
 }));
 
-const TicketInfoCard = ({ info }) => {
-  const { backgroundColor, title, count } = info;
+const TicketInfoCard = ({ backgroundColor, title, count }) => {
   const theme = useTheme();
 
   const LeftBox = styled(Box)(() => ({
